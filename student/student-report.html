@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecolo-Tech | Student Report Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #205781 0%, #4F959D 50%, #98D2C0 100%);
+        }
+        .subject-row:hover {
+            background-color: #F6F8D5;
+        }
+        .header-cell {
+            background-color: #205781;
+            color: white;
+        }
+        .footer-cell {
+            background-color: #4F959D;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <div class="gradient-bg text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-white/20 p-3 rounded-full">
+                            <i class="fas fa-leaf text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">Ecolo-Tech</h1>
+                            <p class="text-white/80">School Management System</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="generatePDF()" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full flex items-center gap-2 transition">
+                            <i class="fas fa-file-pdf"></i>
+                            Export PDF
+                        </button>
+                        <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8" id="report-card">
+            <!-- Report Card Header -->
+            <div class="bg-white rounded-xl shadow p-6 mb-8 text-center border-b-4 border-[#205781]">
+                <h2 class="text-3xl font-bold text-[#205781] mb-2">STUDENT REPORT CARD</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="text-left">
+                        <p class="text-sm text-gray-500">Student Name</p>
+                        <p class="font-bold">John Smith</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500">Academic Year</p>
+                        <p class="font-bold">2023-2024</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Grade Level</p>
+                        <p class="font-bold">Grade 5 - Section B</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subjects Table -->
+            <div class="bg-white rounded-xl shadow overflow-hidden mb-8">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th class="header-cell px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Subject</th>
+                            <th class="header-cell px-6 py-3 text-center text-sm font-medium uppercase tracking-wider">Coefficient</th>
+                            <th class="header-cell px-6 py-3 text-center text-sm font-medium uppercase tracking-wider">DS Grade</th>
+                            <th class="header-cell px-6 py-3 text-center text-sm font-medium uppercase tracking-wider">Evaluation</th>
+                            <th class="header-cell px-6 py-3 text-center text-sm font-medium uppercase tracking-wider">Average</th>
+                            <th class="header-cell px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Teacher's Assessment</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- Subject 1 -->
+                        <tr class="subject-row">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Mathematics</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-500">3</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">15.5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">14.0</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#4F959D]">14.5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Good</td>
+                        </tr>
+                        
+                        <!-- Subject 2 -->
+                        <tr class="subject-row">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Science</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-500">2</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">16.0</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">15.5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#4F959D]">15.7</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Good</td>
+                        </tr>
+                        
+                        <!-- Subject 3 -->
+                        <tr class="subject-row">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">English</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-500">2</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">13.0</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">14.5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#4F959D]">13.8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Good</td>
+                        </tr>
+                        
+                        <!-- Subject 4 -->
+                        <tr class="subject-row">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">History/Geography</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-500">1</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">12.0</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">11.5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#4F959D]">11.7</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Good</td>
+                        </tr>
+                        
+                        <!-- Subject 5 -->
+                        <tr class="subject-row">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Physical Education</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-500">1</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">18.0</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#205781]">17.5</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-[#4F959D]">17.7</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Good</td>
+                        </tr>
+                    </tbody>
+                    
+                    <!-- Footer with averages -->
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="footer-cell px-6 py-3 text-right font-bold">Term Average:</td>
+                            <td class="footer-cell px-6 py-3 text-center font-bold text-xl">14.2</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="footer-cell px-6 py-3 text-right font-bold">Class Average:</td>
+                            <td class="footer-cell px-6 py-3 text-center font-bold">13.8</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="footer-cell px-6 py-3 text-right font-bold">Rank:</td>
+                            <td class="footer-cell px-6 py-3 text-center font-bold">5/28</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- General Assessment -->
+            <div class="bg-white rounded-xl shadow p-6 mb-8">
+                <h3 class="text-lg font-bold text-[#205781] mb-4">GENERAL ASSESSMENT</h3>
+                <div class="border-l-4 border-[#4F959D] pl-4">
+                    <p class="text-gray-700">
+                        Good
+                    </p>
+                </div>
+            </div>
+
+            <!-- Signatures Section -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="h-24 border-b-2 border-dashed border-gray-300 mb-2 flex items-center justify-center">
+                            <span class="text-gray-400">Teacher's Signature</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Ms. Johnson</p>
+                        <p class="text-sm text-gray-500">Class Teacher</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="h-24 border-b-2 border-dashed border-gray-300 mb-2 flex items-center justify-center">
+                            <span class="text-gray-400">Principal's Signature</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Dr. Williams</p>
+                        <p class="text-sm text-gray-500">School Principal</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="h-24 border-b-2 border-dashed border-gray-300 mb-2 flex items-center justify-center">
+                            <span class="text-gray-400">Parent's Signature</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Parent/Guardian</p>
+                        <p class="text-sm text-gray-500">Date: ___________</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('report-card');
+            const opt = {
+                margin: 10,
+                filename: 'EcoTech_ReportCard_JohnSmith_2023-2024.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Show loading indicator
+            const loading = document.createElement('div');
+            loading.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-xl p-6 max-w-sm text-center">
+                    <i class="fas fa-spinner fa-spin text-4xl text-[#205781] mb-4"></i>
+                    <p class="text-lg font-medium">Generating PDF...</p>
+                </div>
+            `;
+            document.body.appendChild(loading);
+
+            // Generate the PDF
+            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+                // Remove loading indicator
+                document.body.removeChild(loading);
+                
+                // You can add additional PDF modifications here if needed
+            });
+        }
+    </script>
+</body>
+</html>

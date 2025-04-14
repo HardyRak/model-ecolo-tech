@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecolo-Tech | Create Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F6F8D5;
+        }
+        
+        .logo-text {
+            background: linear-gradient(90deg, #205781 0%, #4F959D 50%, #98D2C0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #205781 0%, #4F959D 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #1a496b 0%, #3e7a81 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(32, 87, 129, 0.3);
+        }
+        
+        .input-field:focus {
+            border-color: #4F959D;
+            box-shadow: 0 0 0 3px rgba(79, 149, 157, 0.2);
+        }
+        
+        .step-indicator {
+            position: relative;
+            counter-reset: step;
+        }
+        
+        .step-indicator li {
+            list-style-type: none;
+            float: left;
+            width: 25%;
+            position: relative;
+            text-align: center;
+            color: #205781;
+        }
+        
+        .step-indicator li:before {
+            content: counter(step);
+            counter-increment: step;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border: 2px solid #205781;
+            display: block;
+            text-align: center;
+            margin: 0 auto 10px auto;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        .step-indicator li:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            top: 15px;
+            left: -50%;
+            z-index: -1;
+        }
+        
+        .step-indicator li:first-child:after {
+            content: none;
+        }
+        
+        .step-indicator li.active {
+            color: #4F959D;
+        }
+        
+        .step-indicator li.active:before {
+            border-color: #4F959D;
+            background-color: #4F959D;
+            color: white;
+        }
+        
+        .step-indicator li.completed:before {
+            border-color: #98D2C0;
+            background-color: #98D2C0;
+            color: white;
+        }
+        
+        .step-indicator li.completed:after {
+            background-color: #98D2C0;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#205781] via-[#4F959D] to-[#98D2C0]"></div>
+    
+    <div class="w-full max-w-2xl bg-white rounded-xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-[#205781] to-[#4F959D] p-6 text-center">
+            <div class="flex items-center justify-center space-x-3">
+                <div class="flex items-center justify-center w-12 h-12 bg-white rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#205781" class="w-8 h-8">
+                        <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.5 1.5 0 00-.82 1.338v.228a50 50 0 00-4.454-1.302.75.75 0 01-.372-1.436A60.653 60.653 0 0111.7 2.805z" />
+                        <path d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.408.92.801 1.4 1.177a6.502 6.502 0 004.96 1.133 50.04 50.04 0 006.942-1.584c.38-.133.754-.29 1.11-.478a6.5 6.5 0 001.767-1.123c.482-.376.948-.769 1.4-1.176a7.563 7.563 0 01-.397-1.11 1.5 1.5 0 00-.14-2.508v-1.27a48.42 48.42 0 001.06-.209z" />
+                        <path fill-rule="evenodd" d="M4.17 6.498a54.6 54.6 0 00-.17 3.04v.228a50 50 0 004.454 1.302A1.5 1.5 0 009 13.182v-.306a47.67 47.67 0 00-4.83-2.378zM15.83 6.498a47.67 47.67 0 00-4.83 2.38v.306a1.5 1.5 0 001.318 1.341 50.1 50.1 0 004.454-1.303v-.227a54.6 54.6 0 00-.17-3.04 47.7 47.7 0 00-.772-.01z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold logo-text">Ecolo-Tech</h1>
+            </div>
+            <p class="text-white mt-2 text-sm opacity-90">Create Your School Management Account</p>
+        </div>
+        
+        <!-- Progress Steps -->
+        <div class="px-8 pt-6">
+            <ul class="step-indicator">
+                <li class="active"><span>Personal Info</span></li>
+                <li><span>Contact Details</span></li>
+                <li><span>Account Type</span></li>
+                <li><span>Password</span></li>
+            </ul>
+        </div>
+        
+        <!-- Form Steps -->
+        <div class="p-8">
+            <form id="registrationForm">
+                <!-- Step 1: Personal Information -->
+                <div class="form-step active" id="step-1">
+                    <h3 class="text-lg font-semibold text-[#205781] mb-4">Personal Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input type="text" id="lastName" class="pl-10 input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" placeholder="Doe" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input type="text" id="firstName" class="pl-10 input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" placeholder="John" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end mt-6">
+                        <button type="button" class="btn-primary px-6 py-2 text-white font-semibold rounded-lg shadow-md next-step" data-next="step-2">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Contact Details -->
+                <div class="form-step" id="step-2">
+                    <h3 class="text-lg font-semibold text-[#205781] mb-4">Contact Details</h3>
+                    
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-map-marker-alt text-gray-400"></i>
+                            </div>
+                            <input type="text" id="address" class="pl-10 input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" placeholder="123 Main St, City" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="contact" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-phone text-gray-400"></i>
+                            </div>
+                            <input type="tel" id="contact" class="pl-10 input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" placeholder="+1 (555) 123-4567" required>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button type="button" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium prev-step" data-prev="step-1">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="button" class="btn-primary px-6 py-2 text-white font-semibold rounded-lg shadow-md next-step" data-next="step-3">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Account Type -->
+                <div class="form-step" id="step-3">
+                    <h3 class="text-lg font-semibold text-[#205781] mb-4">Account Type</h3>
+                    
+                    <div class="mb-6">
+                        <label for="schoolType" class="block text-sm font-medium text-gray-700 mb-1">Registration School</label>
+                        <select id="schoolType" class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" required>
+                            <option value="" disabled selected>Select School Type</option>
+                            <option value="elementary">Elementary School</option>
+                            <option value="middle">Middle School</option>
+                            <option value="high">High School</option>
+                            <option value="college">College/University</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Account Type</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <input type="radio" id="parent" name="accountType" value="parent" class="hidden peer" required>
+                                <label for="parent" class="flex flex-col items-center justify-center p-4 border border-gray-300 rounded-lg cursor-pointer peer-checked:border-[#4F959D] peer-checked:bg-[#F6F8D5] hover:bg-gray-50">
+                                    <i class="fas fa-user-friends text-3xl text-[#4F959D] mb-2"></i>
+                                    <h4 class="font-medium text-gray-900">Parent</h4>
+                                    <p class="text-xs text-gray-500 text-center">For parents to monitor their children's progress</p>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" id="admin" name="accountType" value="admin" class="hidden peer">
+                                <label for="admin" class="flex flex-col items-center justify-center p-4 border border-gray-300 rounded-lg cursor-pointer peer-checked:border-[#4F959D] peer-checked:bg-[#F6F8D5] hover:bg-gray-50">
+                                    <i class="fas fa-user-shield text-3xl text-[#205781] mb-2"></i>
+                                    <h4 class="font-medium text-gray-900">Administration</h4>
+                                    <p class="text-xs text-gray-500 text-center">For school staff to manage school operations</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button type="button" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium prev-step" data-prev="step-2">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="button" class="btn-primary px-6 py-2 text-white font-semibold rounded-lg shadow-md next-step" data-next="step-4">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Password -->
+                <div class="form-step" id="step-4">
+                    <h3 class="text-lg font-semibold text-[#205781] mb-4">Create Password</h3>
+                    
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="password" class="pl-10 input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" placeholder="••••••••" required>
+                            <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" id="togglePassword">
+                                <i class="fas fa-eye text-gray-400 hover:text-[#4F959D] cursor-pointer"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength mt-2">
+                            <div class="password-strength-bar" id="password-strength-bar"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1" id="password-strength-text">Password strength: Weak</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="confirmPassword" class="pl-10 input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1" placeholder="••••••••" required>
+                            <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" id="toggleConfirmPassword">
+                                <i class="fas fa-eye text-gray-400 hover:text-[#4F959D] cursor-pointer"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-red-500 mt-1 hidden" id="password-match-error">Passwords do not match</p>
+                    </div>
+                    
+                    <div class="flex items-start mb-6">
+                        <div class="flex items-center h-5">
+                            <input id="terms" name="terms" type="checkbox" class="h-4 w-4 text-[#4F959D] focus:ring-[#4F959D] border-gray-300 rounded" required>
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="terms" class="font-medium text-gray-700">I agree to the <a href="#" class="text-[#205781] hover:text-[#4F959D]">Terms of Service</a> and <a href="#" class="text-[#205781] hover:text-[#4F959D]">Privacy Policy</a></label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button type="button" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium prev-step" data-prev="step-3">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="submit" class="btn-primary px-6 py-2 text-white font-semibold rounded-lg shadow-md">
+                            Create Account <i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-50 px-6 py-4 text-center">
+            <p class="text-xs text-gray-500">Already have an account? <a href="#" class="font-medium text-[#205781] hover:text-[#4F959D]">Sign in here</a></p>
+            <p class="text-xs text-gray-500 mt-1">&copy; 2025 Ecolo-Tech School Management System. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Form navigation
+        document.querySelectorAll('.next-step').forEach(button => {
+            button.addEventListener('click', function() {
+                const currentStep = this.closest('.form-step');
+                const nextStepId = this.getAttribute('data-next');
+                
+                // Validate current step before proceeding
+                if (validateStep(currentStep.id)) {
+                    currentStep.classList.remove('active');
+                    document.getElementById(nextStepId).classList.add('active');
+                    updateStepIndicator(nextStepId);
+                }
+            });
+        });
+        
+        document.querySelectorAll('.prev-step').forEach(button => {
+            button.addEventListener('click', function() {
+                const currentStep = this.closest('.form-step');
+                const prevStepId = this.getAttribute('data-prev');
+                
+                currentStep.classList.remove('active');
+                document.getElementById(prevStepId).classList.add('active');
+                updateStepIndicator(prevStepId);
+            });
+        });
+        
+        function updateStepIndicator(stepId) {
+            const steps = document.querySelectorAll('.step-indicator li');
+            let currentStepNumber = parseInt(stepId.split('-')[1]);
+            
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                
+                if (index < currentStepNumber - 1) {
+                    step.classList.add('completed');
+                } else if (index === currentStepNumber - 1) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        function validateStep(stepId) {
+            const step = document.getElementById(stepId);
+            const inputs = step.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.classList.add('border-red-500');
+                    isValid = false;
+                    
+                    // Add error message if not already present
+                    if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('text-red-500')) {
+                        const error = document.createElement('p');
+                        error.className = 'text-xs text-red-500 mt-1';
+                        error.textContent = 'This field is required';
+                        input.parentNode.insertBefore(error, input.nextSibling);
+                    }
+                } else {
+                    input.classList.remove('border-red-500');
+                    // Remove error message if present
+                    if (input.nextElementSibling && input.nextElementSibling.classList.contains('text-red-500')) {
+                        input.parentNode.removeChild(input.nextElementSibling);
+                    }
+                }
+            });
+            
+            // Special validation for password match
+            if (stepId === 'step-4') {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const passwordMatchError = document.getElementById('password-match-error');
+                
+                if (password && confirmPassword && password !== confirmPassword) {
+                    document.getElementById('confirmPassword').classList.add('border-red-500');
+                    passwordMatchError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('confirmPassword').classList.remove('border-red-500');
+                    passwordMatchError.classList.add('hidden');
+                }
+            }
+            
+            return isValid;
+        }
+        
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+        
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                confirmPasswordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+        
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('password-strength-bar');
+            const strengthText = document.getElementById('password-strength-text');
+            
+            // Calculate password strength
+            let strength = 0;
+            if (password.length > 0) strength += 1;
+            if (password.length >= 8) strength += 1;
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            // Update UI
+            const width = strength * 20;
+            strengthBar.style.width = `${width}%`;
+            
+            if (strength <= 1) {
+                strengthBar.style.backgroundColor = '#ef4444';
+                strengthText.textContent = 'Password strength: Weak';
+                strengthText.className = 'text-xs text-red-500 mt-1';
+            } else if (strength <= 3) {
+                strengthBar.style.backgroundColor = '#f59e0b';
+                strengthText.textContent = 'Password strength: Medium';
+                strengthText.className = 'text-xs text-yellow-500 mt-1';
+            } else {
+                strengthBar.style.backgroundColor = '#10b981';
+                strengthText.textContent = 'Password strength: Strong';
+                strengthText.className = 'text-xs text-green-500 mt-1';
+            }
+        });
+        
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate all steps before submission
+            let allValid = true;
+            document.querySelectorAll('.form-step').forEach(step => {
+                if (!validateStep(step.id)) {
+                    allValid = false;
+                }
+            });
+            
+            if (allValid) {
+                // Here you would typically handle the form submission
+                alert('Account created successfully! (This is a demo - in a real app, data would be sent to the server)');
+                
+                // Reset form and go back to step 1
+                this.reset();
+                document.querySelectorAll('.form-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                document.getElementById('step-1').classList.add('active');
+                updateStepIndicator('step-1');
+                
+                // Reset password strength indicator
+                document.getElementById('password-strength-bar').style.width = '0%';
+                document.getElementById('password-strength-text').textContent = 'Password strength: Weak';
+                document.getElementById('password-strength-text').className = 'text-xs text-gray-500 mt-1';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Tech | Subject Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .color-option {
+            transition: all 0.2s ease;
+        }
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        .color-option.selected {
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px #205781;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #205781 0%, #4F959D 50%, #98D2C0 100%);
+        }
+        .multiselect-dropdown {
+            position: relative;
+        }
+        .multiselect-dropdown select {
+            display: none;
+        }
+        .multiselect-dropdown .dropdown-btn {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+        }
+        .multiselect-dropdown .dropdown-content {
+            position: absolute;
+            background-color: white;
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-top: 4px;
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        .multiselect-dropdown .dropdown-content.show {
+            display: block;
+        }
+        .multiselect-dropdown .dropdown-content .item {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .multiselect-dropdown .dropdown-content .item:hover {
+            background-color: #f3f4f6;
+        }
+        .multiselect-dropdown .dropdown-content .item input {
+            margin-right: 8px;
+        }
+        .selected-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .selected-item {
+            background-color: #e5e7eb;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+        }
+        .selected-item button {
+            margin-left: 4px;
+            color: #6b7280;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl">
+            <!-- Header -->
+            <div class="gradient-bg text-white rounded-t-xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold">Eco-Tech</h1>
+                        <p class="text-white/80">School Management System</p>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-full">
+                        <i class="fas fa-book-open text-xl"></i>
+                    </div>
+                </div>
+                <h2 class="mt-6 text-xl font-semibold">Create New Subject</h2>
+            </div>
+            
+            <!-- Form Container -->
+            <div class="bg-white rounded-b-xl shadow-lg p-6">
+                <form id="subjectForm" class="space-y-6">
+                    <!-- Subject Name -->
+                    <div>
+                        <label for="subjectName" class="block text-sm font-medium text-gray-700 mb-1">Subject Name</label>
+                        <div class="relative">
+                            <input type="text" id="subjectName" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition"
+                                placeholder="Enter subject name">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-pencil-alt text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grade Applied -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Grade Applied</label>
+                        <div class="multiselect-dropdown">
+                            <div class="dropdown-btn" onclick="toggleDropdown()">
+                                <span>Select grades</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="dropdown-content">
+                                <div class="item">
+                                    <input type="checkbox" id="allGrades" onchange="toggleAllGrades(this)">
+                                    <label for="allGrades">All Grades</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade1" value="Grade 1" onchange="updateSelectedGrades()">
+                                    <label for="grade1">Grade 1</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade2" value="Grade 2" onchange="updateSelectedGrades()">
+                                    <label for="grade2">Grade 2</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade3" value="Grade 3" onchange="updateSelectedGrades()">
+                                    <label for="grade3">Grade 3</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade4" value="Grade 4" onchange="updateSelectedGrades()">
+                                    <label for="grade4">Grade 4</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade5" value="Grade 5" onchange="updateSelectedGrades()">
+                                    <label for="grade5">Grade 5</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade6" value="Grade 6" onchange="updateSelectedGrades()">
+                                    <label for="grade6">Grade 6</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade7" value="Grade 7" onchange="updateSelectedGrades()">
+                                    <label for="grade7">Grade 7</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade8" value="Grade 8" onchange="updateSelectedGrades()">
+                                    <label for="grade8">Grade 8</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade9" value="Grade 9" onchange="updateSelectedGrades()">
+                                    <label for="grade9">Grade 9</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade10" value="Grade 10" onchange="updateSelectedGrades()">
+                                    <label for="grade10">Grade 10</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade11" value="Grade 11" onchange="updateSelectedGrades()">
+                                    <label for="grade11">Grade 11</label>
+                                </div>
+                                <div class="item">
+                                    <input type="checkbox" id="grade12" value="Grade 12" onchange="updateSelectedGrades()">
+                                    <label for="grade12">Grade 12</label>
+                                </div>
+                            </div>
+                            <div class="selected-items" id="selectedGradesContainer"></div>
+                            <input type="hidden" id="selectedGrades" name="selectedGrades">
+                        </div>
+                    </div>
+                    
+                    <!-- Color Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Color Code</label>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="color-option w-12 h-12 rounded-full cursor-pointer bg-[#205781]" data-color="#205781" onclick="selectColor(this)"></div>
+                            <div class="color-option w-12 h-12 rounded-full cursor-pointer bg-[#4F959D]" data-color="#4F959D" onclick="selectColor(this)"></div>
+                            <div class="color-option w-12 h-12 rounded-full cursor-pointer bg-[#98D2C0]" data-color="#98D2C0" onclick="selectColor(this)"></div>
+                            <div class="color-option w-12 h-12 rounded-full cursor-pointer bg-[#F6F8D5]" data-color="#F6F8D5" onclick="selectColor(this)"></div>
+                            <div class="color-option w-12 h-12 rounded-full cursor-pointer bg-gray-200 flex items-center justify-center" onclick="showCustomColor()">
+                                <i class="fas fa-plus text-gray-500"></i>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedColor" value="#205781">
+                        
+                        <!-- Custom Color Picker (hidden by default) -->
+                        <div id="customColorContainer" class="mt-3 hidden">
+                            <div class="flex items-center gap-3">
+                                <input type="color" id="customColor" class="w-12 h-12 cursor-pointer">
+                                <input type="text" id="customColorHex" class="px-3 py-2 border rounded-lg" placeholder="#RRGGBB">
+                                <button type="button" onclick="addCustomColor()" class="px-4 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266] transition">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="flex justify-end gap-3 pt-4">
+                        <button type="button" onclick="resetForm()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266] transition flex items-center gap-2">
+                            <i class="fas fa-save"></i>
+                            Create Subject
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 max-w-sm w-full mx-4 shadow-xl">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                    <i class="fas fa-check text-green-600"></i>
+                </div>
+                <h3 class="mt-3 text-lg font-medium text-gray-900">Success!</h3>
+                <div class="mt-2 text-sm text-gray-500">
+                    The subject has been created successfully.
+                </div>
+                <div class="mt-4">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266] transition">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Select color function
+        function selectColor(element) {
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('selectedColor').value = element.getAttribute('data-color');
+        }
+        
+        // Show custom color picker
+        function showCustomColor() {
+            document.getElementById('customColorContainer').classList.remove('hidden');
+        }
+        
+        // Add custom color
+        function addCustomColor() {
+            const colorPicker = document.getElementById('customColor');
+            const hexInput = document.getElementById('customColorHex');
+            let color = colorPicker.value;
+            
+            if (hexInput.value) {
+                color = hexInput.value;
+                // Validate hex color
+                if (!/^#[0-9A-F]{6}$/i.test(color)) {
+                    alert('Please enter a valid hex color code (e.g. #RRGGBB)');
+                    return;
+                }
+            }
+            
+            // Create new color option
+            const colorOptions = document.querySelector('.flex.flex-wrap.gap-3');
+            const newColor = document.createElement('div');
+            newColor.className = 'color-option w-12 h-12 rounded-full cursor-pointer';
+            newColor.style.backgroundColor = color;
+            newColor.setAttribute('data-color', color);
+            newColor.onclick = function() { selectColor(this); };
+            
+            // Insert before the custom color button
+            colorOptions.insertBefore(newColor, colorOptions.lastElementChild);
+            
+            // Select the new color
+            selectColor(newColor);
+            
+            // Hide custom color picker
+            document.getElementById('customColorContainer').classList.add('hidden');
+            hexInput.value = '';
+        }
+        
+        // Grade selection functions
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.multiselect-dropdown .dropdown-content');
+            dropdown.classList.toggle('show');
+        }
+        
+        function updateSelectedGrades() {
+            const checkboxes = document.querySelectorAll('.multiselect-dropdown .dropdown-content input[type="checkbox"]:not(#allGrades)');
+            const selectedContainer = document.getElementById('selectedGradesContainer');
+            const hiddenInput = document.getElementById('selectedGrades');
+            
+            selectedContainer.innerHTML = '';
+            let selectedValues = [];
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedValues.push(checkbox.value);
+                    
+                    // Add pill for selected grade
+                    const pill = document.createElement('div');
+                    pill.className = 'selected-item';
+                    pill.innerHTML = `
+                        ${checkbox.value}
+                        <button type="button" onclick="removeGrade('${checkbox.id}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    selectedContainer.appendChild(pill);
+                }
+            });
+            
+            hiddenInput.value = selectedValues.join(',');
+        }
+        
+        function removeGrade(checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            checkbox.checked = false;
+            updateSelectedGrades();
+            
+            // Uncheck "All Grades" if any grade is unchecked
+            if (checkboxId !== 'allGrades') {
+                document.getElementById('allGrades').checked = false;
+            }
+        }
+        
+        function toggleAllGrades(checkbox) {
+            const gradeCheckboxes = document.querySelectorAll('.multiselect-dropdown .dropdown-content input[type="checkbox"]:not(#allGrades)');
+            
+            gradeCheckboxes.forEach(gradeCheckbox => {
+                gradeCheckbox.checked = checkbox.checked;
+            });
+            
+            updateSelectedGrades();
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.multiselect-dropdown')) {
+                document.querySelector('.multiselect-dropdown .dropdown-content').classList.remove('show');
+            }
+        });
+        
+        // Form submission
+        document.getElementById('subjectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const subjectName = document.getElementById('subjectName').value;
+            const selectedGrades = document.getElementById('selectedGrades').value;
+            const selectedColor = document.getElementById('selectedColor').value;
+            
+            // Validate at least one grade is selected
+            if (!selectedGrades) {
+                alert('Please select at least one grade');
+                return;
+            }
+            
+            // Here you would typically send this data to your backend
+            console.log('Subject created:', {
+                name: subjectName,
+                grades: selectedGrades,
+                color: selectedColor
+            });
+            
+            // Show success modal
+            document.getElementById('successModal').classList.remove('hidden');
+        });
+        
+        // Reset form
+        function resetForm() {
+            document.getElementById('subjectForm').reset();
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Select first color by default
+            document.querySelector('.color-option').classList.add('selected');
+            document.getElementById('selectedColor').value = '#205781';
+            document.getElementById('customColorContainer').classList.add('hidden');
+            
+            // Reset grade selection
+            document.querySelectorAll('.multiselect-dropdown input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            document.getElementById('selectedGradesContainer').innerHTML = '';
+            document.getElementById('selectedGrades').value = '';
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            resetForm();
+        }
+        
+        // Initialize - select first color by default
+        window.onload = function() {
+            document.querySelector('.color-option').classList.add('selected');
+            
+            // Connect color picker and hex input
+            const colorPicker = document.getElementById('customColor');
+            const hexInput = document.getElementById('customColorHex');
+            
+            colorPicker.addEventListener('input', function() {
+                hexInput.value = colorPicker.value;
+            });
+            
+            hexInput.addEventListener('input', function() {
+                if (/^#[0-9A-F]{6}$/i.test(hexInput.value)) {
+                    colorPicker.value = hexInput.value;
+                }
+            });
+        };
+    </script>
+</body>
+</html>

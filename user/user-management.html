@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#205781',
+                        secondary: '#4F959D',
+                        accent: '#98D2C0',
+                        light: '#F6F8D5'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F6F8D5;
+        }
+
+        .user-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .role-student {
+            background-color: rgba(32, 87, 129, 0.1);
+            color: #205781;
+        }
+        .role-teacher {
+            background-color: rgba(79, 149, 157, 0.1);
+            color: #4F959D;
+        }
+        .role-parent {
+            background-color: rgba(152, 210, 192, 0.1);
+            color: #98D2C0;
+        }
+        .role-admin {
+            background-color: rgba(32, 87, 129, 0.2);
+            color: #205781;
+            font-weight: 600;
+        }
+        .archived {
+            opacity: 0.7;
+            background-color: #f3f3f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-primary text-white shadow-md">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold">User Management System</h1>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <input type="text" placeholder="Search users..." class="px-4 py-2 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-accent">
+                            <button class="absolute right-3 top-2 text-gray-500">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <button class="bg-secondary hover:bg-opacity-90 px-4 py-2 rounded-full flex items-center">
+                            <i class="fas fa-plus mr-2"></i> Add User
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+            <!-- Filters and Sorting -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <div class="flex flex-wrap justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <h2 class="text-lg font-semibold text-gray-700">Filter and Sort Users</h2>
+                        <p class="text-sm text-gray-500">View, modify, or archive user accounts</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <div class="relative">
+                            <select class="appearance-none bg-accent border-0 rounded-full px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer">
+                                <option>All Roles</option>
+                                <option>Student</option>
+                                <option>Teacher</option>
+                                <option>Parent</option>
+                                <option>Administrator</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <select class="appearance-none bg-accent border-0 rounded-full px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer">
+                                <option>Sort by: Newest</option>
+                                <option>Sort by: Oldest</option>
+                                <option>Sort by: Name (A-Z)</option>
+                                <option>Sort by: Name (Z-A)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        
+                        <button id="toggleArchived" class="bg-accent hover:bg-opacity-80 px-4 py-2 rounded-full flex items-center">
+                            <i class="fas fa-archive mr-2"></i> Show Archived
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- User Card 1 -->
+                <div class="user-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Emily Johnson</h3>
+                                <p class="text-gray-500">emily.johnson@example.com</p>
+                            </div>
+                            <div class="dropdown relative">
+                                <button class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-content mt-2">
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-edit mr-2"></i>Edit</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-archive mr-2"></i>Archive</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center">
+                            <span class="role-student px-3 py-1 rounded-full text-sm font-medium">Student</span>
+                            <span class="ml-auto text-sm text-gray-500">Last active: 2 hours ago</span>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex justify-between text-sm">
+                                <div>
+                                    <p class="text-gray-500">Joined</p>
+                                    <p class="font-medium">Jan 15, 2022</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Status</p>
+                                    <p class="font-medium text-green-500">Active</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">ID</p>
+                                    <p class="font-medium">#STU042</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Card 2 -->
+                <div class="user-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Michael Chen</h3>
+                                <p class="text-gray-500">michael.chen@example.com</p>
+                            </div>
+                            <div class="dropdown relative">
+                                <button class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-content mt-2">
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-edit mr-2"></i>Edit</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-archive mr-2"></i>Archive</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center">
+                            <span class="role-teacher px-3 py-1 rounded-full text-sm font-medium">Teacher</span>
+                            <span class="ml-auto text-sm text-gray-500">Last active: 1 day ago</span>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex justify-between text-sm">
+                                <div>
+                                    <p class="text-gray-500">Joined</p>
+                                    <p class="font-medium">Aug 22, 2020</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Status</p>
+                                    <p class="font-medium text-green-500">Active</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">ID</p>
+                                    <p class="font-medium">#TEA187</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Card 3 -->
+                <div class="user-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Sarah Williams</h3>
+                                <p class="text-gray-500">sarah.williams@example.com</p>
+                            </div>
+                            <div class="dropdown relative">
+                                <button class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-content mt-2">
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-edit mr-2"></i>Edit</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-archive mr-2"></i>Archive</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center">
+                            <span class="role-parent px-3 py-1 rounded-full text-sm font-medium">Parent</span>
+                            <span class="ml-auto text-sm text-gray-500">Last active: 3 days ago</span>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex justify-between text-sm">
+                                <div>
+                                    <p class="text-gray-500">Joined</p>
+                                    <p class="font-medium">Mar 5, 2021</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Status</p>
+                                    <p class="font-medium text-green-500">Active</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">ID</p>
+                                    <p class="font-medium">#PAR356</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Card 4 -->
+                <div class="user-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">David Rodriguez</h3>
+                                <p class="text-gray-500">d.rodriguez@example.com</p>
+                            </div>
+                            <div class="dropdown relative">
+                                <button class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-content mt-2">
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-edit mr-2"></i>Edit</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-archive mr-2"></i>Archive</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center">
+                            <span class="role-admin px-3 py-1 rounded-full text-sm font-medium">Administrator</span>
+                            <span class="ml-auto text-sm text-gray-500">Last active: Just now</span>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex justify-between text-sm">
+                                <div>
+                                    <p class="text-gray-500">Joined</p>
+                                    <p class="font-medium">Jun 12, 2019</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Status</p>
+                                    <p class="font-medium text-green-500">Active</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">ID</p>
+                                    <p class="font-medium">#ADM001</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Card 5 (Archived) -->
+                <div class="user-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 archived hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Robert Smith</h3>
+                                <p class="text-gray-500">robert.smith@example.com</p>
+                            </div>
+                            <div class="dropdown relative">
+                                <button class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-content mt-2">
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-edit mr-2"></i>Edit</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><i class="fas fa-box-open mr-2"></i>Unarchive</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center">
+                            <span class="role-teacher px-3 py-1 rounded-full text-sm font-medium">Teacher</span>
+                            <span class="ml-auto text-sm text-gray-500">Last active: 6 months ago</span>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex justify-between text-sm">
+                                <div>
+                                    <p class="text-gray-500">Joined</p>
+                                    <p class="font-medium">Feb 3, 2020</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Status</p>
+                                    <p class="font-medium text-red-500">Archived</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">ID</p>
+                                    <p class="font-medium">#TEA156</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="mt-8 flex justify-center">
+                <nav class="inline-flex rounded-md shadow">
+                    <a href="#" class="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-primary font-medium">1</a>
+                    <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-500 hover:bg-gray-50">2</a>
+                    <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-500 hover:bg-gray-50">3</a>
+                    <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-500 hover:bg-gray-50">4</a>
+                    <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-500 hover:bg-gray-50">5</a>
+                    <a href="#" class="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </nav>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle archived users visibility
+        document.getElementById('toggleArchived').addEventListener('click', function() {
+            const archivedCards = document.querySelectorAll('.archived');
+            const button = this;
+            
+            archivedCards.forEach(card => {
+                if (card.classList.contains('hidden')) {
+                    card.classList.remove('hidden');
+                    button.innerHTML = '<i class="fas fa-archive mr-2"></i> Hide Archived';
+                } else {
+                    card.classList.add('hidden');
+                    button.innerHTML = '<i class="fas fa-archive mr-2"></i> Show Archived';
+                }
+            });
+        });
+
+        // Simulate user actions
+        document.querySelectorAll('.dropdown-content a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.textContent.trim();
+                const userCard = this.closest('.user-card');
+                
+                if (action.includes('Archive')) {
+                    userCard.classList.add('archived');
+                    alert('User has been archived. They will no longer appear in active user lists.');
+                } else if (action.includes('Unarchive')) {
+                    userCard.classList.remove('archived');
+                    alert('User has been unarchived and will now appear in active user lists.');
+                } else if (action.includes('Delete')) {
+                    if (confirm('Are you sure you want to permanently delete this user?')) {
+                        userCard.remove();
+                        alert('User has been permanently deleted.');
+                    }
+                } else if (action.includes('Edit')) {
+                    alert('Edit user modal would open here.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduManage | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F6F8D5;
+        }
+        
+        .logo-text {
+            background: linear-gradient(90deg, #205781 0%, #4F959D 50%, #98D2C0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #205781 0%, #4F959D 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #1a496b 0%, #3e7a81 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(32, 87, 129, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #98D2C0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #85b8a8;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            border-left: 4px solid #205781;
+            background-color: rgba(32, 87, 129, 0.1);
+        }
+        
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .badge-grade {
+            background-color: #205781;
+        }
+        
+        .badge-section {
+            background-color: #4F959D;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#205781] via-[#4F959D] to-[#98D2C0]"></div>
+    
+    <div class="flex">
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-[#205781]">Classes & Sections Management</h2>
+                <div class="flex space-x-4">
+                    <button id="addClassBtn" class="btn-primary px-4 py-2 text-white font-medium rounded-lg shadow-md">
+                        <i class="fas fa-plus mr-2"></i> Add Class
+                    </button>
+                    <button id="addSectionBtn" class="btn-secondary px-4 py-2 text-white font-medium rounded-lg shadow-md">
+                        <i class="fas fa-plus mr-2"></i> Add Section
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-200 mb-6">
+                <button class="tab-btn active px-6 py-3 font-medium text-[#205781] border-b-2 border-[#205781]">
+                    Classes
+                </button>
+                <button class="tab-btn px-6 py-3 font-medium text-gray-500 border-b-2 border-transparent hover:text-[#4F959D]">
+                    Sections
+                </button>
+            </div>
+            
+            <!-- Classes Table -->
+            <div id="classesTab" class="tab-content">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-[#205781]">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#F6F8D5] uppercase tracking-wider">Grade</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#F6F8D5] uppercase tracking-wider">Sections</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#F6F8D5] uppercase tracking-wider">Class Teacher</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#F6F8D5] uppercase tracking-wider">Students</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-[#F6F8D5] uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-grade px-3 py-1 rounded-full text-xs font-semibold text-white">8th Grade</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex space-x-2">
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">A</span>
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">B</span>
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">C</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/42.jpg" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Ms. Sarah Johnson</div>
+                                            <div class="text-sm text-gray-500">Mathematics</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users mr-2 text-[#4F959D]"></i> 32 students
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="edit-btn mr-3 text-[#4F959D] hover:text-[#205781]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-grade px-3 py-1 rounded-full text-xs font-semibold text-white">7th Grade</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex space-x-2">
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">A</span>
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">B</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Mr. David Wilson</div>
+                                            <div class="text-sm text-gray-500">Science</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users mr-2 text-[#4F959D]"></i> 28 students
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="edit-btn mr-3 text-[#4F959D] hover:text-[#205781]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-grade px-3 py-1 rounded-full text-xs font-semibold text-white">9th Grade</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex space-x-2">
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">A</span>
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">B</span>
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">C</span>
+                                        <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">D</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/65.jpg" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Ms. Emily Chen</div>
+                                            <div class="text-sm text-gray-500">English</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users mr-2 text-[#4F959D]"></i> 45 students
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="edit-btn mr-3 text-[#4F959D] hover:text-[#205781]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Sections Table (Hidden by default) -->
+            <div id="sectionsTab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-[#F6F8D5]">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#205781] uppercase tracking-wider">Section</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#205781] uppercase tracking-wider">Grade</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#205781] uppercase tracking-wider">Class Teacher</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-[#205781] uppercase tracking-wider">Students</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-[#205781] uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">Section A</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-grade px-3 py-1 rounded-full text-xs font-semibold text-white">8th Grade</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/42.jpg" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Ms. Sarah Johnson</div>
+                                            <div class="text-sm text-gray-500">Mathematics</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users mr-2 text-[#4F959D]"></i> 15 students
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="edit-btn mr-3 text-[#4F959D] hover:text-[#205781]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-section px-3 py-1 rounded-full text-xs font-semibold text-white">Section B</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge-grade px-3 py-1 rounded-full text-xs font-semibold text-white">8th Grade</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/75.jpg" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Mr. Robert Smith</div>
+                                            <div class="text-sm text-gray-500">History</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users mr-2 text-[#4F959D]"></i> 17 students
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="edit-btn mr-3 text-[#4F959D] hover:text-[#205781]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-[#205781]">Add New Class</h3>
+            </div>
+            <div class="p-6">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F959D]">
+                            <option value="">Select Grade</option>
+                            <option value="6">6th Grade</option>
+                            <option value="7">7th Grade</option>
+                            <option value="8">8th Grade</option>
+                            <option value="9">9th Grade</option>
+                            <option value="10">10th Grade</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Class Teacher</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F959D]">
+                            <option value="">Select Teacher</option>
+                            <option value="1">Ms. Sarah Johnson</option>
+                            <option value="2">Mr. David Wilson</option>
+                            <option value="3">Ms. Emily Chen</option>
+                            <option value="4">Mr. Robert Smith</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Sections</label>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-[#4F959D]">
+                                <span class="ml-2">Section A</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-[#4F959D]">
+                                <span class="ml-2">Section B</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-[#4F959D]">
+                                <span class="ml-2">Section C</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-[#4F959D]">
+                                <span class="ml-2">Section D</span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                <button id="cancelClassBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button class="btn-primary px-4 py-2 text-white font-medium rounded-lg shadow-md">
+                    Save Class
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Section Modal -->
+    <div id="addSectionModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-[#205781]">Add New Section</h3>
+            </div>
+            <div class="p-6">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Section Name</label>
+                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F959D]" placeholder="e.g. Section A">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F959D]">
+                            <option value="">Select Grade</option>
+                            <option value="6">6th Grade</option>
+                            <option value="7">7th Grade</option>
+                            <option value="8">8th Grade</option>
+                            <option value="9">9th Grade</option>
+                            <option value="10">10th Grade</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Class Teacher</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F959D]">
+                            <option value="">Select Teacher</option>
+                            <option value="1">Ms. Sarah Johnson</option>
+                            <option value="2">Mr. David Wilson</option>
+                            <option value="3">Ms. Emily Chen</option>
+                            <option value="4">Mr. Robert Smith</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                <button id="cancelSectionBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button class="btn-primary px-4 py-2 text-white font-medium rounded-lg shadow-md">
+                    Save Section
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Modal (Generic for both class and section) -->
+    <div id="editModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 id="editModalTitle" class="text-lg font-semibold text-[#205781]">Edit</h3>
+            </div>
+            <div class="p-6">
+                <form id="editForm">
+                    <!-- Dynamic content will be inserted here -->
+                </form>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                <button id="cancelEditBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button class="btn-primary px-4 py-2 text-white font-medium rounded-lg shadow-md">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-[#205781]">Confirm Deletion</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-700">Are you sure you want to delete this item? This action cannot be undone.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                <button id="cancelDeleteBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button class="px-4 py-2 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.tab-btn.active').classList.remove('active', 'text-[#205781]', 'border-[#205781]');
+                document.querySelector('.tab-btn.active').classList.add('text-gray-500', 'border-transparent');
+                
+                this.classList.remove('text-gray-500', 'border-transparent');
+                this.classList.add('active', 'text-[#205781]', 'border-[#205781]');
+                
+                // Show the corresponding tab content
+                const tabName = this.textContent.trim();
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                if (tabName === 'Classes') {
+                    document.getElementById('classesTab').classList.remove('hidden');
+                } else {
+                    document.getElementById('sectionsTab').classList.remove('hidden');
+                }
+            });
+        });
+        
+        // Modal handling
+        const addClassBtn = document.getElementById('addClassBtn');
+        const addSectionBtn = document.getElementById('addSectionBtn');
+        const addClassModal = document.getElementById('addClassModal');
+        const addSectionModal = document.getElementById('addSectionModal');
+        const editModal = document.getElementById('editModal');
+        const deleteModal = document.getElementById('deleteModal');
+        
+        // Show modals
+        addClassBtn.addEventListener('click', () => addClassModal.classList.remove('hidden'));
+        addSectionBtn.addEventListener('click', () => addSectionModal.classList.remove('hidden'));
+        
+        // Hide modals
+        document.getElementById('cancelClassBtn').addEventListener('click', () => addClassModal.classList.add('hidden'));
+        document.getElementById('cancelSectionBtn').addEventListener('click', () => addSectionModal.classList.add('hidden'));
+        document.getElementById('cancelEditBtn').addEventListener('click', () => editModal.classList.add('hidden'));
+        document.getElementById('cancelDeleteBtn').addEventListener('click', () => deleteModal.classList.add('hidden'));
+        
+        // Edit buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // In a real app, we would populate the form with the item's data
+                document.getElementById('editModalTitle').textContent = 'Edit Class';
+                editModal.classList.remove('hidden');
+            });
+        });
+        
+        // Delete buttons
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                deleteModal.classList.remove('hidden');
+            });
+        });
+        
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

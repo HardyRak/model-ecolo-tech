@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecolo-Tech | Student Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #205781 0%, #4F959D 50%, #98D2C0 100%);
+        }
+        .student-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .gender-badge {
+            transition: all 0.2s ease;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <div class="gradient-bg text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-white/20 p-3 rounded-full">
+                            <i class="fas fa-leaf text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">Ecolo-Tech</h1>
+                            <p class="text-white/80">School Management System</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"></i>
+                            <input type="text" placeholder="Search students..." class="pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white">
+                        </div>
+                        <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8">
+            <!-- Grade and Section Selection -->
+            <div class="bg-white rounded-xl shadow p-6 mb-8">
+                <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-4 md:space-y-0">
+                    <div class="flex-1">
+                        <label for="grade-select" class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                        <select id="grade-select" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                            <option value="">All Grades</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label for="section-select" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                        <select id="section-select" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                            <option value="">All Sections</option>
+                            <option value="A">Section A</option>
+                            <option value="B">Section B</option>
+                            <option value="C">Section C</option>
+                            <option value="D">Section D</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="filterStudents()" class="px-6 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266] transition flex items-center gap-2">
+                            <i class="fas fa-filter"></i>
+                            Apply Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Student Management</h2>
+                    <p class="text-gray-600">View and manage all students in your school</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                    <button onclick="openAddStudentModal()" class="px-6 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266] transition flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        Add New Student
+                    </button>
+                </div>
+            </div>
+
+            <!-- Students Table -->
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+                <!-- Table Header -->
+                <div class="grid grid-cols-12 bg-gray-100 px-6 py-4 font-medium text-gray-700">
+                    <div class="col-span-2">Student No.</div>
+                    <div class="col-span-3">Last Name</div>
+                    <div class="col-span-3">First Name</div>
+                    <div class="col-span-2">Gender</div>
+                    <div class="col-span-2 text-right">Actions</div>
+                </div>
+
+                <!-- Table Rows -->
+                <div class="divide-y divide-gray-200">
+                    <!-- Student 1 -->
+                    <div class="grid grid-cols-12 px-6 py-4 hover:bg-gray-50 transition student-card">
+                        <div class="col-span-2 flex items-center font-medium text-[#205781]">
+                            #2023001
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Smith
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            John
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="gender-badge px-2 py-1 bg-[#4F959D]/10 text-[#4F959D] rounded-full text-xs">Male</span>
+                        </div>
+                        <div class="col-span-2 flex justify-end space-x-2">
+                            <button class="action-btn px-3 py-1 bg-[#98D2C0]/10 text-[#4F959D] rounded-lg text-sm hover:bg-[#98D2C0]/20" onclick="viewStudentDetails(1)">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button class="action-btn text-[#205781] hover:text-[#164266]" title="Edit" onclick="openEditStudentModal(1)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn text-red-500 hover:text-red-700" title="Dismiss" onclick="confirmDismiss(1)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Student 2 -->
+                    <div class="grid grid-cols-12 px-6 py-4 hover:bg-gray-50 transition student-card">
+                        <div class="col-span-2 flex items-center font-medium text-[#205781]">
+                            #2023002
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Johnson
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Mary
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="gender-badge px-2 py-1 bg-[#F6F8D5]/10 text-yellow-600 rounded-full text-xs">Female</span>
+                        </div>
+                        <div class="col-span-2 flex justify-end space-x-2">
+                            <button class="action-btn px-3 py-1 bg-[#98D2C0]/10 text-[#4F959D] rounded-lg text-sm hover:bg-[#98D2C0]/20" onclick="viewStudentDetails(2)">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button class="action-btn text-[#205781] hover:text-[#164266]" title="Edit" onclick="openEditStudentModal(2)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn text-red-500 hover:text-red-700" title="Dismiss" onclick="confirmDismiss(2)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Student 3 -->
+                    <div class="grid grid-cols-12 px-6 py-4 hover:bg-gray-50 transition student-card">
+                        <div class="col-span-2 flex items-center font-medium text-[#205781]">
+                            #2023003
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Williams
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            David
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="gender-badge px-2 py-1 bg-[#4F959D]/10 text-[#4F959D] rounded-full text-xs">Male</span>
+                        </div>
+                        <div class="col-span-2 flex justify-end space-x-2">
+                            <button class="action-btn px-3 py-1 bg-[#98D2C0]/10 text-[#4F959D] rounded-lg text-sm hover:bg-[#98D2C0]/20" onclick="viewStudentDetails(3)">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button class="action-btn text-[#205781] hover:text-[#164266]" title="Edit" onclick="openEditStudentModal(3)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn text-red-500 hover:text-red-700" title="Dismiss" onclick="confirmDismiss(3)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Student 4 -->
+                    <div class="grid grid-cols-12 px-6 py-4 hover:bg-gray-50 transition student-card">
+                        <div class="col-span-2 flex items-center font-medium text-[#205781]">
+                            #2023004
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Brown
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Emily
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="gender-badge px-2 py-1 bg-[#F6F8D5]/10 text-yellow-600 rounded-full text-xs">Female</span>
+                        </div>
+                        <div class="col-span-2 flex justify-end space-x-2">
+                            <button class="action-btn px-3 py-1 bg-[#98D2C0]/10 text-[#4F959D] rounded-lg text-sm hover:bg-[#98D2C0]/20" onclick="viewStudentDetails(4)">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button class="action-btn text-[#205781] hover:text-[#164266]" title="Edit" onclick="openEditStudentModal(4)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn text-red-500 hover:text-red-700" title="Dismiss" onclick="confirmDismiss(4)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Student 5 -->
+                    <div class="grid grid-cols-12 px-6 py-4 hover:bg-gray-50 transition student-card">
+                        <div class="col-span-2 flex items-center font-medium text-[#205781]">
+                            #2023005
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Jones
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            Robert
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="gender-badge px-2 py-1 bg-[#4F959D]/10 text-[#4F959D] rounded-full text-xs">Male</span>
+                        </div>
+                        <div class="col-span-2 flex justify-end space-x-2">
+                            <button class="action-btn px-3 py-1 bg-[#98D2C0]/10 text-[#4F959D] rounded-lg text-sm hover:bg-[#98D2C0]/20" onclick="viewStudentDetails(5)">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button class="action-btn text-[#205781] hover:text-[#164266]" title="Edit" onclick="openEditStudentModal(5)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn text-red-500 hover:text-red-700" title="Dismiss" onclick="confirmDismiss(5)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="px-6 py-4 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between">
+                    <div class="text-sm text-gray-600 mb-4 md:mb-0">
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">24</span> students
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 border rounded-lg text-gray-700 hover:bg-gray-50">
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border rounded-lg bg-[#205781] text-white">
+                            1
+                        </button>
+                        <button class="px-3 py-1 border rounded-lg text-gray-700 hover:bg-gray-50">
+                            2
+                        </button>
+                        <button class="px-3 py-1 border rounded-lg text-gray-700 hover:bg-gray-50">
+                            3
+                        </button>
+                        <button class="px-3 py-1 border rounded-lg text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Add New Student</h3>
+                <button onclick="closeAddStudentModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                        <input type="text" id="firstName" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                    </div>
+                    <div>
+                        <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                        <input type="text" id="lastName" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    <div class="flex space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" class="text-[#205781] focus:ring-[#205781]" checked>
+                            <span class="ml-2">Male</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" class="text-[#205781] focus:ring-[#205781]">
+                            <span class="ml-2">Female</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" class="text-[#205781] focus:ring-[#205781]">
+                            <span class="ml-2">Other</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="grade" class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                        <select id="grade" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                            <option value="">Select Grade</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="section" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                        <select id="section" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                            <option value="">Select Section</option>
+                            <option value="A">Section A</option>
+                            <option value="B">Section B</option>
+                            <option value="C">Section C</option>
+                            <option value="D">Section D</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="birthDate" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                    <input type="date" id="birthDate" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                </div>
+                
+                <div>
+                    <label for="studentNumber" class="block text-sm font-medium text-gray-700 mb-1">Student Number</label>
+                    <input type="text" id="studentNumber" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeAddStudentModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266]">
+                        Add Student
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div id="editStudentModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Edit Student</h3>
+                <button onclick="closeEditStudentModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="editFirstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                        <input type="text" id="editFirstName" value="John" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                    </div>
+                    <div>
+                        <label for="editLastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                        <input type="text" id="editLastName" value="Smith" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    <div class="flex space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="editGender" class="text-[#205781] focus:ring-[#205781]" checked>
+                            <span class="ml-2">Male</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="editGender" class="text-[#205781] focus:ring-[#205781]">
+                            <span class="ml-2">Female</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="editGender" class="text-[#205781] focus:ring-[#205781]">
+                            <span class="ml-2">Other</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="editGrade" class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                        <select id="editGrade" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                            <option value="5" selected>Grade 5</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="editSection" class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                        <select id="editSection" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                            <option value="B" selected>Section B</option>
+                            <option value="A">Section A</option>
+                            <option value="C">Section C</option>
+                            <option value="D">Section D</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="editBirthDate" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                    <input type="date" id="editBirthDate" value="2010-05-15" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                </div>
+                
+                <div>
+                    <label for="editStudentNumber" class="block text-sm font-medium text-gray-700 mb-1">Student Number</label>
+                    <input type="text" id="editStudentNumber" value="#2023001" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#205781] focus:border-[#205781] outline-none transition">
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeEditStudentModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266]">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dismiss Confirmation Modal -->
+    <div id="dismissModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 max-w-sm w-full mx-4 shadow-xl">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                    <i class="fas fa-exclamation text-red-600"></i>
+                </div>
+                <h3 class="mt-3 text-lg font-medium text-gray-900">Dismiss Student</h3>
+                <div class="mt-2 text-sm text-gray-500">
+                    Are you sure you want to dismiss this student from the school? This action cannot be undone.
+                </div>
+                <div class="mt-4 flex justify-center space-x-3">
+                    <button type="button" onclick="closeDismissModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="dismissStudent()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-7
+00">
+                        Dismiss
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div id="studentDetailsModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Student Details</h3>
+                <button onclick="closeStudentDetailsModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">Student Number</p>
+                        <p class="font-medium">#2023001</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Date of Birth</p>
+                        <p class="font-medium">May 15, 2010</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">First Name</p>
+                        <p class="font-medium">John</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Last Name</p>
+                        <p class="font-medium">Smith</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">Grade Level</p>
+                        <p class="font-medium">Grade 5</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Section</p>
+                        <p class="font-medium">Section B</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <p class="text-sm text-gray-500">Gender</p>
+                    <p class="font-medium">Male</p>
+                </div>
+                
+                <div>
+                    <p class="text-sm text-gray-500">Status</p>
+                    <p class="font-medium text-green-600">Active</p>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-200">
+                    <h4 class="font-medium mb-2">Additional Information</h4>
+                    <p class="text-sm text-gray-600">No additional information available.</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeStudentDetailsModal()" class="px-4 py-2 bg-[#205781] text-white rounded-lg hover:bg-[#164266]">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openAddStudentModal() {
+            document.getElementById('addStudentModal').classList.remove('hidden');
+        }
+        
+        function closeAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('hidden');
+        }
+        
+        function openEditStudentModal(id) {
+            // In a real app, you would fetch student data based on ID
+            document.getElementById('editStudentModal').classList.remove('hidden');
+        }
+        
+        function closeEditStudentModal() {
+            document.getElementById('editStudentModal').classList.add('hidden');
+        }
+        
+        function confirmDismiss(id) {
+            document.getElementById('dismissModal').classList.remove('hidden');
+            // Store the student ID to dismiss when confirmed
+            document.getElementById('dismissModal').dataset.studentId = id;
+        }
+        
+        function closeDismissModal() {
+            document.getElementById('dismissModal').classList.add('hidden');
+        }
+        
+        function dismissStudent() {
+            const studentId = document.getElementById('dismissModal').dataset.studentId;
+            // In a real app, you would send a request to dismiss the student
+            console.log(`Dismissing student with ID: ${studentId}`);
+            alert(`Student #${studentId} has been dismissed.`);
+            closeDismissModal();
+        }
+        
+        function viewStudentDetails(id) {
+            // In a real app, you would fetch student details based on ID
+            document.getElementById('studentDetailsModal').classList.remove('hidden');
+        }
+        
+        function closeStudentDetailsModal() {
+            document.getElementById('studentDetailsModal').classList.add('hidden');
+        }
+        
+        function filterStudents() {
+            const grade = document.getElementById('grade-select').value;
+            const section = document.getElementById('section-select').value;
+            
+            // In a real app, you would filter students based on grade and section
+            console.log(`Filtering students - Grade: ${grade}, Section: ${section}`);
+            alert(`Filter applied: Grade ${grade || 'All'}, Section ${section || 'All'}`);
+        }
+    </script>
+</body>
+</html>
