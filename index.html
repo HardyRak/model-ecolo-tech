@@ -1,188 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ecolo-Tech School Management</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#205781',
-            secondary: '#4F959D',
-            accent: '#98D2C0',
-            light: '#F6F8D5',
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecolo-Tech School Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#205781',
+                        secondary: '#4F959D',
+                        accent: '#98D2C0',
+                        light: '#F6F8D5'
+                    }
+                }
+            }
         }
-      }
-    };
-  </script>
-  <style>
-    .sidebar {
-      transition: all 0.3s ease;
-    }
-    .sidebar-collapsed {
-      width: 80px;
-    }
-    .sidebar-expanded {
-      width: 250px;
-    }
-    .menu-item {
-      transition: all 0.2s ease;
-    }
-    .menu-item:hover {
-      transform: translateX(5px);
-    }
-    .tooltip {
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .has-tooltip:hover .tooltip {
-      visibility: visible;
-      opacity: 1;
-    }
-    .content-area {
-      transition: margin-left 0.3s ease;
-    }
-    #content-frame {
-      min-height: calc(100vh - 2rem);
-    }
-  </style>
+    </script>
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar-collapsed {
+            width: 80px;
+        }
+        .sidebar-expanded {
+            width: 250px;
+        }
+        .menu-item {
+            transition: all 0.2s ease;
+        }
+        .menu-item:hover {
+            transform: translateX(5px);
+        }
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .content-area {
+            transition: margin-left 0.3s ease;
+        }
+        #content-frame {
+            min-height: calc(100vh - 2rem);
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans">
-  <div class="flex h-screen overflow-hidden">
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar sidebar-expanded bg-primary text-white flex flex-col">
-      <!-- Logo -->
-      <div class="p-4 flex items-center justify-between border-b border-secondary">
-        <div class="flex items-center space-x-3">
-          <i class="fas fa-leaf text-2xl text-accent"></i>
-          <span id="app-name" class="text-xl font-bold">Ecolo-Tech</span>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar sidebar-expanded bg-primary text-white flex flex-col">
+            <!-- Logo and App Name -->
+            <div class="p-4 flex items-center justify-between border-b border-secondary">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-leaf text-2xl text-accent"></i>
+                    <span id="app-name" class="text-xl font-bold">Ecolo-Tech</span>
+                </div>
+                <button id="toggle-sidebar" class="text-light hover:text-accent focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="p-4 flex items-center space-x-3 border-b border-secondary">
+                <div class="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                    <i class="fas fa-user text-primary"></i>
+                </div>
+                <div id="user-info">
+                    <div class="font-medium">Admin User</div>
+                    <div class="text-xs text-light opacity-80">Administrator</div>
+                </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-2 px-2">
+                    <!-- Dashboard -->
+                    <li>
+                        <a href="/dashboard.html" data-page="dashboard" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
+                            <i class="fas fa-tachometer-alt text-lg w-6 text-center text-accent"></i>
+                            <span id="dashboard-text" class="ml-3">Dashboard</span>
+                            <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Student Schedule -->
+                    <li>
+                        <a href="/class/class-list-model.html" data-page="schedule" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
+                            <i class="fas fa-calendar-alt text-lg w-6 text-center text-accent"></i>
+                            <span id="schedule-text" class="ml-3">Student Schedule</span>
+                            <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Student Schedule</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Student Management -->
+                    <li>
+                        <a href="/student/student-list.html" data-page="students" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
+                            <i class="fas fa-users text-lg w-6 text-center text-accent"></i>
+                            <span id="students-text" class="ml-3">Student Management</span>
+                            <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Student Management</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Subject Management -->
+                    <li>
+                        <a href="/subject/subject-list.html" data-page="subjects" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
+                            <i class="fas fa-book text-lg w-6 text-center text-accent"></i>
+                            <span id="subjects-text" class="ml-3">Subject Management</span>
+                            <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Subject Management</span>
+                        </a>
+                    </li>
+                    
+                    <!-- User Management System -->
+                    <li>
+                        <a href="/user/user-management.html" data-page="users" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
+                            <i class="fas fa-user-shield text-lg w-6 text-center text-accent"></i>
+                            <span id="users-text" class="ml-3">User Management</span>
+                            <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">User Management</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Footer/Settings -->
+            <div class="p-4 border-t border-secondary">
+                <a href="/#" class="menu-item flex items-center p-2 rounded-lg hover:bg-secondary group has-tooltip">
+                    <i class="fas fa-cog text-lg w-6 text-center text-accent"></i>
+                    <span id="settings-text" class="ml-3">Settings</span>
+                    <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Settings</span>
+                </a>
+            </div>
         </div>
-        <button id="toggle-sidebar" class="text-light hover:text-accent focus:outline-none">
-          <i class="fas fa-bars"></i>
-        </button>
-      </div>
-
-      <!-- User Info -->
-      <div class="p-4 flex items-center space-x-3 border-b border-secondary">
-        <div class="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-          <i class="fas fa-user text-primary"></i>
+        
+        <!-- Main Content -->
+        <div id="content-area" class="content-area flex-1 overflow-y-auto">
+            <iframe id="content-frame" src="/dashboard.html" frameborder="0" class="w-full h-full"></iframe>
         </div>
-        <div id="user-info">
-          <div class="font-medium">Admin User</div>
-          <div class="text-xs text-light opacity-80">Administrator</div>
-        </div>
-      </div>
-
-      <!-- Menu -->
-      <nav class="flex-1 overflow-y-auto py-4">
-        <ul class="space-y-2 px-2">
-          <li>
-            <a href="/dashboard.html" data-page="dashboard" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
-              <i class="fas fa-tachometer-alt text-lg w-6 text-center text-accent"></i>
-              <span id="dashboard-text" class="ml-3">Dashboard</span>
-              <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a href="/class/class-list-model.html" data-page="schedule" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
-              <i class="fas fa-calendar-alt text-lg w-6 text-center text-accent"></i>
-              <span id="schedule-text" class="ml-3">Student Schedule</span>
-              <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Student Schedule</span>
-            </a>
-          </li>
-          <li>
-            <a href="/student/student-list.html" data-page="students" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
-              <i class="fas fa-users text-lg w-6 text-center text-accent"></i>
-              <span id="students-text" class="ml-3">Student Management</span>
-              <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Student Management</span>
-            </a>
-          </li>
-          <li>
-            <a href="/subject/subject-list.html" data-page="subjects" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
-              <i class="fas fa-book text-lg w-6 text-center text-accent"></i>
-              <span id="subjects-text" class="ml-3">Subject Management</span>
-              <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Subject Management</span>
-            </a>
-          </li>
-          <li>
-            <a href="/user/user-management.html" data-page="users" class="menu-item flex items-center p-3 rounded-lg hover:bg-secondary group has-tooltip">
-              <i class="fas fa-user-shield text-lg w-6 text-center text-accent"></i>
-              <span id="users-text" class="ml-3">User Management</span>
-              <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">User Management</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-      <!-- Settings -->
-      <div class="p-4 border-t border-secondary">
-        <a href="/#" class="menu-item flex items-center p-2 rounded-lg hover:bg-secondary group has-tooltip">
-          <i class="fas fa-cog text-lg w-6 text-center text-accent"></i>
-          <span id="settings-text" class="ml-3">Settings</span>
-          <span class="tooltip absolute left-full ml-2 px-3 py-1 bg-primary text-white text-sm rounded shadow-lg whitespace-nowrap">Settings</span>
-        </a>
-      </div>
     </div>
 
-    <!-- Main Content -->
-    <div id="content-area" class="content-area flex-1 overflow-y-auto">
-      <iframe id="content-frame" src="dashboard.html" frameborder="0" class="w-full h-full"></iframe>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const sidebar = document.getElementById('sidebar');
-      const toggleBtn = document.getElementById('toggle-sidebar');
-      const contentArea = document.getElementById('content-area');
-      const contentFrame = document.getElementById('content-frame');
-      const menuTexts = ['app-name', 'dashboard-text', 'schedule-text', 'students-text', 'subjects-text', 'users-text', 'settings-text', 'user-info'];
-      const menuLinks = document.querySelectorAll('nav a');
-
-      toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-collapsed');
-        sidebar.classList.toggle('sidebar-expanded');
-
-        const hide = sidebar.classList.contains('sidebar-collapsed');
-        menuTexts.forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.style.display = hide ? 'none' : 'block';
-        });
-      });
-
-      menuLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          const pageUrl = this.getAttribute('href');
-
-          menuLinks.forEach(item => item.classList.remove('bg-secondary'));
-          this.classList.add('bg-secondary');
-
-          contentFrame.src = pageUrl;
-
-          history.pushState({ page: pageUrl }, '', pageUrl);
-        });
-      });
-
-      window.addEventListener('popstate', function (e) {
-        if (e.state && e.state.page) {
-          contentFrame.src = e.state.page;
-
-          menuLinks.forEach(link => {
-            link.classList.remove('bg-secondary');
-            if (link.getAttribute('href') === e.state.page) {
-              link.classList.add('bg-secondary');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const BASE_URL = 'https://hardyrak.github.io/model-ecolo-tech/';
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggle-sidebar');
+            const contentArea = document.getElementById('content-area');
+            const contentFrame = document.getElementById('content-frame');
+            const menuTexts = ['app-name', 'dashboard-text', 'schedule-text', 'students-text', 'subjects-text', 'users-text', 'settings-text', 'user-info'];
+            const menuLinks = document.querySelectorAll('nav a');
+            
+            // Toggle sidebar
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('sidebar-collapsed');
+                sidebar.classList.toggle('sidebar-expanded');
+                
+                if (sidebar.classList.contains('sidebar-collapsed')) {
+                    contentArea.classList.add('md:ml-20');
+                    menuTexts.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.style.display = 'none';
+                    });
+                } else {
+                    contentArea.classList.remove('md:ml-20');
+                    menuTexts.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.style.display = 'block';
+                    });
+                }
+            });
+            
+            // Handle navigation
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageUrl = BASE_URL+this.getAttribute('href');
+                    console.log(pageUrl);
+                    // Update active state
+                    menuLinks.forEach(item => {
+                        item.classList.remove('bg-secondary');
+                    });
+                    this.classList.add('bg-secondary');
+                    
+                    // Load content
+                    contentFrame.src = pageUrl;
+                    
+                    // Update browser history
+                    history.pushState({ page: pageUrl }, '', pageUrl);
+                });
+            });
+            
+            // Handle back/forward navigation
+            window.addEventListener('popstate', function(e) {
+                if (e.state && e.state.page) {
+                    contentFrame.src = e.state.page;
+            
+                    // Update active menu item
+                    menuLinks.forEach(link => {
+                        link.classList.remove('bg-secondary');
+                        if (link.getAttribute('href') === e.state.page) {
+                            link.classList.add('bg-secondary');
+                        }
+                    });
+                }
+            });
+            
+            // Responsive behavior
+            function handleResize() {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('sidebar-collapsed');
+                    sidebar.classList.remove('sidebar-expanded');
+                    contentArea.classList.add('md:ml-20');
+                    menuTexts.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.style.display = 'none';
+                    });
+                }
             }
-          });
-        }
-      });
-    });
-  </script>
+            
+            // Initial check
+            handleResize();
+            window.addEventListener('resize', handleResize);
+            const initialUrl = BASE_URL + currentPath;
+            console.log(initialUrl)
+            // Set initial active menu item based on current URL
+            const currentPath = window.location.pathname.split('/').pop() || 'dashboard.html';
+            console.log(currentPath);
+            menuLinks.forEach(link => {
+                const linkPath = link.getAttribute('href').split('/').pop();
+                if (linkPath === currentPath) {
+                    link.classList.add('bg-secondary');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
